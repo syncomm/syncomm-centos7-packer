@@ -1,0 +1,25 @@
+# packer.io cache and img directory
+packer_cache/
+syncomm-centos7-img/
+
+# macOS Files
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux Files
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# Thumbnails
+._*
+
+# Vim 
+.sw[a-p]
+.*.sw[a-p]
+Session.vim
+.netrwhist
+tags
