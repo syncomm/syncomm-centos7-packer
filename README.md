@@ -32,3 +32,7 @@ glance image-create --name "CentOS 7" --is-public true --disk-format qcow2 \
           --container-format bare \
           --file syncomm-centos7.qcow2
 ```
+
+### References
+
+Additional CentOS cloud kickstarts can be found at: [CentOS/sig-cloud-instance-build](https://github.com/CentOS/sig-cloud-instance-build)
