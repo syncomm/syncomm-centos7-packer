@@ -5,10 +5,10 @@ auth --enableshadow --passalgo=sha512
 install
 # License agreement
 eula --agreed
-repo --name="base" 
-repo --name="updates" 
-repo --name="extras" 
-repo --name="EPEL" --baseurl=http://dl.fedoraproject.org/pub/epel/beta/7/x86_64
+repo --name="base" --baseurl=http://mirror.centos.org/centos/7/os/x86_64/
+repo --name="updates" --baseurl=http://mirror.centos.org/centos/7/updates/x86_64/
+repo --name="extras" --baseurl=http://mirror.centos.org/centos/7/extras/x86_64/
+repo --name="EPEL" --baseurl=http://dl.fedoraproject.org/pub/epel/7/x86_64
 # Use CDROM installation media
 cdrom
 # Use text mode install
@@ -32,7 +32,10 @@ reboot
 # Root password
 rootpw --iscrypted --lock locked
 # SELinux configuration
-selinux --enforcing
+# selinux --enforcing
+# selinux --permissive
+selinux --disabled
+
 # System services
 services --enabled="network,sshd,rsyslog,cloud-init,cloud-init-local,cloud-config,cloud-final,chronyd"
 # Do not configure the X Window System
@@ -62,7 +65,7 @@ echo -e 'default=0\ntimeout=0\n\n' > /boot/grub/grub.conf
 for kv in $( ls -1v /boot/vmlinuz* |grep -v rescue |sed s/.*vmlinuz-//  ); do
   echo "title Fedora ($kv)" >> /boot/grub/grub.conf
   echo -e "\troot (hd0,0)" >> /boot/grub/grub.conf
-  echo -e "\tkernel /boot/vmlinuz-$kv ro root=$rootuuid no_timer_check console=hvc0 LANG=en_US.UTF-8" >> /boot/grub/grub.conf
+  echo -e "\tkernel /boot/vmlinuz-$kv ro root=$rootuuid no_timer_check console=hvc0 LANG=en_US.UTF-8 selinux=0" >> /boot/grub/grub.conf
   echo -e "\tinitrd /boot/initramfs-$kv.img" >> /boot/grub/grub.conf
   echo
 done
@@ -226,19 +229,25 @@ echo "(Don't worry -- that out-of-space error was expected.)"
 
 %packages --instLangs=en
 @core
+audit-libs
+bind-utils
 chrony
 cloud-init
 cloud-utils
 cloud-utils-growpart
+dracut
 dracut-config-generic
 dracut-norescue
+glibc-common
 grub2
 kernel
 kexec-tools
 net-tools
 nfs-utils
+policycoreutils
 rsync
 tar
+wget
 yum-utils
 -NetworkManager
 -aic94xx-firmware

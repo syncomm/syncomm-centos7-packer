@@ -14,7 +14,7 @@
       "disk_size": 20000,
       "format": "ova",
  
-      "iso_url": "http://centos.sonn.com/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso",
+      "iso_url": "http://centos.sonn.com/7/isos/x86_64/CentOS-7-x86_64-Minimal-1804.iso",
       "iso_checksum_url": "http://centos.sonn.com/7/isos/x86_64/sha256sum.txt",
       "iso_checksum_type": "sha256",
  
