@@ -32,9 +32,9 @@ reboot
 # Root password
 rootpw --iscrypted --lock locked
 # SELinux configuration
-# selinux --enforcing
+selinux --enforcing
 # selinux --permissive
-selinux --disabled
+# selinux --disabled
 
 # System services
 services --enabled="network,sshd,rsyslog,cloud-init,cloud-init-local,cloud-config,cloud-final,chronyd"
@@ -50,6 +50,8 @@ zerombr
 clearpart --all --initlabel
 # Disk partitioning information
 part / --fstype="xfs" --ondisk=sda --size=19999
+# Unnecessary fix for enabling d_type for Docker overlay2 driver
+# part / --fstype="xfs" --mkfsoptions="-n ftype=1" --ondisk=sda --size=19999
 
 %post --erroronfail
 
@@ -190,7 +192,7 @@ truncate -c -s 0 /var/log/yum.log
 echo "Import RPM GPG key"
 releasever=$(rpm -q --qf '%{version}\n' centos-release)
 basearch=$(uname -i)
-rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centos-$releasever-$basearch
+rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-$releasever
 
 echo "Packages within this cloud image:"
 echo "-----------------------------------------------------------------------"
@@ -210,11 +212,11 @@ retry 60;
 EOF
 
 # SELinux Fixes
-echo "Fixing SELinux contexts."
-touch /var/log/cron
-touch /var/log/boot.log
-mkdir -p /var/cache/yum
-/usr/sbin/fixfiles -R -a restore
+# echo "Fixing SELinux contexts."
+# touch /var/log/cron
+# touch /var/log/boot.log
+# mkdir -p /var/cache/yum
+# /usr/sbin/fixfiles -R -a restore
 
 # reorder console entries
 sed -i 's/console=tty0/console=tty0 console=ttyS0,115200n8/' /boot/grub2/grub.cfg
